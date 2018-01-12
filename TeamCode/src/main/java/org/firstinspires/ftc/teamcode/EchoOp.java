@@ -13,23 +13,23 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class EchoOp extends OpMode {
 
     private DcMotor driveLeftFront, driveLeftBack, driveRightFront, driveRightBack;
-    private DcMotor pullMotor, hand;
+    private DcMotor elevator, hand;
     private Servo pusher;
 
 
-    private int pullMotorMaxTurn = 10600;
-    private int pullMotorEnd1 = 9600;
-    private int pullMotorEnd2 = 8600;
-    private int pullMotorStart2 = 2000;
-    private int pullMotorStart1 = 1000;
-    private int pullMotorMinTurn = 0;
+    private int elevatorMaxTurn = 10000;
+    private int elevatorEnd1 = 9000;
+    private int elevatorEnd2 = 8000;
+    private int elevatorStart2 = 2000;
+    private int elevatorStart1 = 1000;
+    private int elevatorMinTurn = 0;
 
-    private int handMaxPosition = 154;
+    private int handMaxPosition = 163;
     private int handMinPosition = 0;
 
     private double speedModifier = 1;
 
-    private boolean backwardsMode = false;
+    private int backwardsMode = 1;
 
     @Override
     public void init() {
@@ -39,7 +39,7 @@ public class EchoOp extends OpMode {
         driveRightFront = hardwareMap.dcMotor.get("drf");
         driveRightBack = hardwareMap.dcMotor.get("drb");
 
-        pullMotor = hardwareMap.dcMotor.get("pullMotor");
+        elevator = hardwareMap.dcMotor.get("elevator");
         hand = hardwareMap.dcMotor.get("hand");
         pusher = hardwareMap.servo.get("pusher");
 
@@ -48,7 +48,7 @@ public class EchoOp extends OpMode {
         driveRightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         driveRightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        pullMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        elevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         hand.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         pusher.setPosition(0.5);
@@ -60,27 +60,33 @@ public class EchoOp extends OpMode {
 
         // Controller 1
 
-        if(gamepad1.y) {
+        if (gamepad1.y) {
             speedModifier = 0.5;
         } else if(gamepad1.x) {
             speedModifier = 1;
         }
 
+        if (gamepad1.b) {
+            backwardsMode = -1;
+        } else if (gamepad1.a) {
+            backwardsMode = 1;
+        }
+
         if(gamepad1.dpad_left) {
-            driveLeftFront.setPower(1 * speedModifier);
-            driveLeftBack.setPower(1 * speedModifier);
-            driveRightFront.setPower(1 * speedModifier);
-            driveRightBack.setPower(1 * speedModifier);
+            driveLeftFront.setPower(backwardsMode * 1 * speedModifier);
+            driveLeftBack.setPower(backwardsMode * 1 * speedModifier);
+            driveRightFront.setPower(backwardsMode * 1 * speedModifier);
+            driveRightBack.setPower(backwardsMode * 1 * speedModifier);
         } else if(gamepad1.dpad_right) {
-            driveLeftFront.setPower(-1 * speedModifier);
-            driveLeftBack.setPower(-1 * speedModifier);
-            driveRightFront.setPower(-1 * speedModifier);
-            driveRightBack.setPower(-1 * speedModifier);
+            driveLeftFront.setPower(backwardsMode * -1 * speedModifier);
+            driveLeftBack.setPower(backwardsMode * -1 * speedModifier);
+            driveRightFront.setPower(backwardsMode * -1 * speedModifier);
+            driveRightBack.setPower(backwardsMode * -1 * speedModifier);
         } else {
-            driveLeftFront.setPower(gamepad1.left_stick_y * speedModifier);
-            driveLeftBack.setPower(-gamepad1.left_stick_y * speedModifier);
-            driveRightFront.setPower(-gamepad1.right_stick_y * speedModifier);
-            driveRightBack.setPower(gamepad1.right_stick_y * speedModifier);
+            driveLeftFront.setPower(backwardsMode * gamepad1.left_stick_y * speedModifier);
+            driveLeftBack.setPower(backwardsMode * -gamepad1.left_stick_y * speedModifier);
+            driveRightFront.setPower(backwardsMode * -gamepad1.right_stick_y * speedModifier);
+            driveRightBack.setPower(backwardsMode * gamepad1.right_stick_y * speedModifier);
         }
 
         /**
@@ -96,37 +102,37 @@ public class EchoOp extends OpMode {
 
         // Controller 2
 
-        int pullMotorPosition = pullMotor.getCurrentPosition();
+        int elevatorPosition = elevator.getCurrentPosition();
         if(gamepad2.dpad_up) {
-            if(pullMotorPosition < pullMotorStart1) {
-                pullMotor.setPower(0.25);
-            } else if(pullMotorPosition < pullMotorStart2) {
-                pullMotor.setPower(0.5);
-            } else if(pullMotorPosition < pullMotorEnd2) {
-                pullMotor.setPower(1);
-            } else if(pullMotorPosition < pullMotorEnd1) {
-                pullMotor.setPower(0.5);
-            } else if(pullMotorPosition < pullMotorMaxTurn) {
-                pullMotor.setPower(0.25);
+            if(elevatorPosition < elevatorStart1) {
+                elevator.setPower(0.25);
+            } else if(elevatorPosition < elevatorStart2) {
+                elevator.setPower(0.5);
+            } else if(elevatorPosition < elevatorEnd2) {
+                elevator.setPower(1);
+            } else if(elevatorPosition < elevatorEnd1) {
+                elevator.setPower(0.5);
+            } else if(elevatorPosition < elevatorMaxTurn) {
+                elevator.setPower(0.25);
             } else {
-                pullMotor.setPower(0);
+                elevator.setPower(0);
             }
         } else if(gamepad2.dpad_down) {
-            if(pullMotorPosition > pullMotorEnd1) {
-                pullMotor.setPower(-0.25);
-            } else if(pullMotorPosition > pullMotorEnd2) {
-                pullMotor.setPower(-0.5);
-            } else if(pullMotorPosition > pullMotorStart2) {
-                pullMotor.setPower(-1);
-            } else if(pullMotorPosition > pullMotorStart1) {
-                pullMotor.setPower(-0.5);
-            } else if(pullMotorPosition > pullMotorMinTurn) {
-                pullMotor.setPower(-0.25);
+            if(elevatorPosition > elevatorEnd1) {
+                elevator.setPower(-0.25);
+            } else if(elevatorPosition > elevatorEnd2) {
+                elevator.setPower(-0.5);
+            } else if(elevatorPosition > elevatorStart2) {
+                elevator.setPower(-1);
+            } else if(elevatorPosition > elevatorStart1) {
+                elevator.setPower(-0.5);
+            } else if(elevatorPosition > elevatorMinTurn) {
+                elevator.setPower(-0.25);
             } else {
-                pullMotor.setPower(0);
+                elevator.setPower(0);
             }
         } else {
-            pullMotor.setPower(0);
+            elevator.setPower(0);
         }
 
         if(gamepad2.right_bumper) {
@@ -137,22 +143,22 @@ public class EchoOp extends OpMode {
 
 
         if(gamepad2.y) {
-            pullMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            pullMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            elevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            elevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
-        telemetry.addData("Pull Motor Position", pullMotor.getCurrentPosition());
+        telemetry.addData("Elevator Position", elevator.getCurrentPosition());
         telemetry.addData("Hand Position", hand.getCurrentPosition());
-        telemetry.addData("Zero Position", pullMotorMinTurn);
+        telemetry.addData("Zero Position", elevatorMinTurn);
     }
 
     private void openHand() {
-        hand.setTargetPosition(handMaxPosition);
-        hand.setPower(0.1);
+        hand.setTargetPosition(handMinPosition);
+        hand.setPower(0.5);
     }
 
     private void closeHand() {
-        hand.setTargetPosition(handMinPosition);
-        hand.setPower(-0.1);
+        hand.setTargetPosition(handMaxPosition);
+        hand.setPower(-0.5);
     }
 }

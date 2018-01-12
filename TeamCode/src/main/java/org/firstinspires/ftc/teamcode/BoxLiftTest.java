@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Created by ishanarya on 1/6/18.
  */
 
-@TeleOp(name = "BoxLift")
-public class BoxLiftClass extends OpMode {
+@TeleOp(name = "BoxLiftTest")
+public class BoxLiftTest extends OpMode {
 
     private DcMotor elevator, hand;
 
@@ -33,9 +33,8 @@ public class BoxLiftClass extends OpMode {
         hand.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    @Override
-    public void loop() {
 
+    public void loop() {
 
         int elevatorPosition = elevator.getCurrentPosition();
         if(gamepad1.dpad_up) {
