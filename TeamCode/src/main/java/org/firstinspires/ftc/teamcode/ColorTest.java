@@ -20,13 +20,11 @@ public class ColorTest extends OpMode {
 
     @Override
     public void loop() {
+        int red = color.red();
+        int blue = color.blue();
+        telemetry.addData("Red", red);
+        telemetry.addData("Blue", blue);
 
-
-        telemetry.addData("Alpha", color.alpha());
-        telemetry.addData("Red", color.red());
-        telemetry.addData("Green", color.green());
-        telemetry.addData("Blue", color.blue());
-        telemetry.addData("ARGB", color.argb());
-
+        telemetry.addData("Blue > Red: ", blue > red);
     }
 }
