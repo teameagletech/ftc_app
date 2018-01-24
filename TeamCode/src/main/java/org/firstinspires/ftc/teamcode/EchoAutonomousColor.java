@@ -2,17 +2,21 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "EchoAutonomous")
-public class EchoAutonomous extends LinearOpMode {
+@Autonomous(name = "EchoAutonomousColor")
+public class EchoAutonomousColor extends LinearOpMode {
 
 
     private DcMotor driveLeftFront, driveLeftBack, driveRightFront, driveRightBack;
     private DcMotor elevator, hand;
     private Servo pusher;
+    private CRServo colorServo;
+
+    private ColorSensor color;
 
     private int pullMotorStart1 = 1000;
 
@@ -29,15 +33,19 @@ public class EchoAutonomous extends LinearOpMode {
         hand = hardwareMap.dcMotor.get("hand");
 
         pusher = hardwareMap.servo.get("pusher");
+        colorServo = hardwareMap.crservo.get("colorServo");
 
         driveLeftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         driveLeftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         driveRightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         driveRightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        color = hardwareMap.colorSensor.get("color");
+
         elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         hand.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         pusher.setPosition(1);
+        colorServo.setPower(0);
     }
 
 
@@ -48,42 +56,68 @@ public class EchoAutonomous extends LinearOpMode {
         telemetry.addData("Message", "Don't lose too hard.");
 
         waitForStart();
-        closeHand();
 
-        elevator.setTargetPosition(pullMotorStart1);
-        elevator.setPower(1);
+//        closeHand();
 
-//        driveLeftFront.setPower(backwardsMode * gamepad1.left_stick_y * speedModifier);
-//        driveLeftBack.setPower(backwardsMode * -gamepad1.left_stick_y * speedModifier);
-//        driveRightFront.setPower(backwardsMode * -gamepad1.right_stick_y * speedModifier);
-//        driveRightBack.setPower(backwardsMode * gamepad1.right_stick_y * speedModifier);
+//        elevator.setTargetPosition(pullMotorStart1);
+//        elevator.setPower(1);
 
-        driveLeftFront.setPower(-1);
-        driveLeftBack.setPower(1);
-        driveRightFront.setPower(1);
-        driveRightBack.setPower(-1);
-        Thread.sleep(2000);
+        // backwards for .1 seconds
+
+        colorServo.setPower(-0.2);
+        Thread.sleep(500);
+        colorServo.setPower(0);
+
+
+        int red = color.red(), blue = color.blue();
+        while (red < 100 && blue < 100) {
+            red = color.red();
+            blue = color.blue();
+            driveLeftFront.setPower(0.3);
+            driveLeftBack.setPower(-0.3);
+            driveRightFront.setPower(-0.3);
+            driveRightBack.setPower(0.3);
+        }
         driveLeftFront.setPower(0);
         driveLeftBack.setPower(0);
         driveRightFront.setPower(0);
         driveRightBack.setPower(0);
+        stopRobot();
 
-        pusher.setPosition(0.55);
+        telemetry.addData("Red", color.red());
+        telemetry.addData("green", color.green());
+        telemetry.addData("Blue", color.blue());
+        telemetry.addData("argb", color.argb());
+        telemetry.addData("alpha", color.alpha());
 
-        openHand();
 
-        driveLeftFront.setPower(0.5);
-        driveLeftBack.setPower(-0.5);
-        driveRightFront.setPower(-0.5);
-        driveRightBack.setPower(0.5);
-
-        Thread.sleep(250);
-
-        driveLeftFront.setPower(0);
-        driveLeftBack.setPower(0);
-        driveRightFront.setPower(0);
-        driveRightBack.setPower(0);
-        pusher.setPosition(1);
+        // forward for 2 seconds
+//        driveLeftFront.setPower(-1);
+//        driveLeftBack.setPower(1);
+//        driveRightFront.setPower(1);
+//        driveRightBack.setPower(-1);
+//        Thread.sleep(2000);
+//        driveLeftFront.setPower(0);
+//        driveLeftBack.setPower(0);
+//        driveRightFront.setPower(0);
+//        driveRightBack.setPower(0);
+//
+//        pusher.setPosition(0.55);
+//
+//        openHand();
+//
+//        driveLeftFront.setPower(0.5);
+//        driveLeftBack.setPower(-0.5);
+//        driveRightFront.setPower(-0.5);
+//        driveRightBack.setPower(0.5);
+//
+//        Thread.sleep(250);
+//
+//        driveLeftFront.setPower(0);
+//        driveLeftBack.setPower(0);
+//        driveRightFront.setPower(0);
+//        driveRightBack.setPower(0);
+//        pusher.setPosition(1);
 
         stop();
     }
