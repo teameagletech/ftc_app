@@ -24,7 +24,7 @@ public class EchoOp extends OpMode {
     private int elevatorStart1 = 1000;
     private int elevatorMinTurn = 0;
 
-    private int handMaxPosition = 163;
+    private int handMaxPosition = 175;
     private int handMinPosition = 0;
 
     private double speedModifier = 1;
@@ -51,7 +51,7 @@ public class EchoOp extends OpMode {
         elevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         hand.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        pusher.setPosition(0.5);
+        pusher.setPosition(1);
 
     }
 
@@ -61,7 +61,7 @@ public class EchoOp extends OpMode {
         // Controller 1
 
         if (gamepad1.y) {
-            speedModifier = 0.5;
+            speedModifier = 0.3;
         } else if(gamepad1.x) {
             speedModifier = 1;
         }
@@ -94,9 +94,9 @@ public class EchoOp extends OpMode {
          * Flap in front of robot
          */
         if(gamepad1.left_bumper) {
-            pusher.setPosition(0);
+            pusher.setPosition(0.55);
         } else {
-            pusher.setPosition(0.5);
+            pusher.setPosition(1);
         }
 
         //########################################################################################################################################################################

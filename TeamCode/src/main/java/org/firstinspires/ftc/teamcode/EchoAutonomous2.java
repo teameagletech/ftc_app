@@ -45,7 +45,7 @@ public class EchoAutonomous2 extends LinearOpMode {
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         pullMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         hand.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        pusher.setPosition(0.5);
+        pusher.setPosition(1);
 
     }
 
