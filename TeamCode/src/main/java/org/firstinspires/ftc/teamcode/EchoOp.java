@@ -72,22 +72,23 @@ public class EchoOp extends OpMode {
             backwardsMode = 1;
         }
 
-        if(gamepad1.dpad_left) {
-            driveLeftFront.setPower(backwardsMode * 1 * speedModifier);
-            driveLeftBack.setPower(backwardsMode * 1 * speedModifier);
-            driveRightFront.setPower(backwardsMode * 1 * speedModifier);
-            driveRightBack.setPower(backwardsMode * 1 * speedModifier);
-        } else if(gamepad1.dpad_right) {
-            driveLeftFront.setPower(backwardsMode * -1 * speedModifier);
-            driveLeftBack.setPower(backwardsMode * -1 * speedModifier);
-            driveRightFront.setPower(backwardsMode * -1 * speedModifier);
-            driveRightBack.setPower(backwardsMode * -1 * speedModifier);
-        } else {
-            driveLeftFront.setPower(backwardsMode * gamepad1.left_stick_y * speedModifier);
-            driveLeftBack.setPower(backwardsMode * -gamepad1.left_stick_y * speedModifier);
-            driveRightFront.setPower(backwardsMode * -gamepad1.right_stick_y * speedModifier);
-            driveRightBack.setPower(backwardsMode * gamepad1.right_stick_y * speedModifier);
-        }
+
+
+
+        driveLeftFront.setPower(-gamepad1.left_stick_x * speedModifier);
+        driveLeftBack.setPower(-gamepad1.left_stick_x * speedModifier);
+        driveRightBack.setPower(-gamepad1.left_stick_x * speedModifier);
+        driveRightFront.setPower(-gamepad1.left_stick_x * speedModifier);
+
+//        driveLeftFront.setPower(backwardsMode * gamepad1.left_stick_y * speedModifier);
+//        driveLeftBack.setPower(backwardsMode * -gamepad1.left_stick_y * speedModifier);
+//        driveRightFront.setPower(backwardsMode * -gamepad1.left_stick_y * speedModifier);
+//        driveRightBack.setPower(backwardsMode * gamepad1.left_stick_y * speedModifier);
+
+//        driveLeftFront.setPower(backwardsMode * gamepad1.right_stick_x * speedModifier);
+//        driveLeftBack.setPower(backwardsMode * -gamepad1.right_stick_x * speedModifier);
+//        driveRightFront.setPower(backwardsMode * gamepad1.right_stick_x * speedModifier);
+//        driveRightBack.setPower(backwardsMode * -gamepad1.right_stick_x * speedModifier);
 
         /**
          * Flap in front of robot

@@ -32,21 +32,33 @@ public class DriveTest extends OpMode {
             speedModifier = 1;
         }
 
-        if(gamepad1.dpad_left) {
-            driveLeftFront.setPower(1 * speedModifier);
-            driveLeftBack.setPower(1 * speedModifier);
-            driveRightFront.setPower(1 * speedModifier);
-            driveRightBack.setPower(1 * speedModifier);
-        } else if(gamepad1.dpad_right) {
-            driveLeftFront.setPower(-1 * speedModifier);
-            driveLeftBack.setPower(-1 * speedModifier);
-            driveRightFront.setPower(-1 * speedModifier);
-            driveRightBack.setPower(-1 * speedModifier);
-        } else {
-            driveLeftFront.setPower(gamepad1.left_stick_y * speedModifier);
-            driveLeftBack.setPower(-gamepad1.left_stick_y * speedModifier);
-            driveRightFront.setPower(-gamepad1.right_stick_y * speedModifier);
-            driveRightBack.setPower(gamepad1.right_stick_y * speedModifier);
-        }
+        double r = Math.hypot(-gamepad1.left_stick_y, gamepad1.left_stick_x);
+        double robotAngle = Math.atan2(gamepad1.left_stick_x, -gamepad1.left_stick_y) + Math.PI/4;
+        double rightX = gamepad1.right_stick_x;
+
+        final double a = r * Math.sin(robotAngle) + rightX;
+        final double b = r * Math.cos(robotAngle) - rightX;
+        final double c = r * Math.cos(robotAngle) + rightX;
+        final double d = r * Math.sin(robotAngle) - rightX;
+
+        driveLeftFront.setPower(-a);
+        driveRightFront.setPower(b);
+        driveLeftBack.setPower(-c);
+        driveRightBack.setPower(d);
+
+//        //strafe right on positive
+//        driveLeftFront.setPower(-gamepad1.left_stick_x * speedModifier); //+
+//        driveLeftBack.setPower(gamepad1.left_stick_x * speedModifier); //-
+//        driveRightBack.setPower(gamepad1.left_stick_x * speedModifier); //+
+//        driveRightFront.setPower(-gamepad1.left_stick_x * speedModifier); //-
+
+        telemetry.addData("Gamepad 1 Left Stick X", gamepad1.left_stick_x);
+        telemetry.addData("Gamepad 1 Left Stick Y", -gamepad1.left_stick_y);
+        telemetry.addData("Gamepad 1 Right Stick X", gamepad1.right_stick_x);
+
+        telemetry.addData("Left Front", -a);
+        telemetry.addData("Right Front", b);
+        telemetry.addData("Left Back", -c);
+        telemetry.addData("Right Back", d);
     }
 }
