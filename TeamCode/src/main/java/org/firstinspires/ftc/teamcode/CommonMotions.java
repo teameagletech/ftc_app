@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 /**
  * Created by ishanarya on 1/26/18.
  */
@@ -16,12 +18,12 @@ public class CommonMotions {
     private Servo relicGrabber, relicLift;
     private Servo pusher;
 
-    final public int elevatorMaxTurn = 10000;
+    final public int elevatorMaxPosition = 10000;
     final public int elevatorEnd1 = 9000;
     final public int elevatorEnd2 = 8000;
     final public int elevatorStart2 = 2000;
     final public int elevatorStart1 = 1000;
-    final public int elevatorMinTurn = 0;
+    final public int elevatorMinPosition = 0;
 
     final public double handPower = 0.6;
     final public int handMaxPosition = 175;
@@ -110,7 +112,7 @@ public class CommonMotions {
             elevator.setPower(1);
         } else if(elevatorPosition < elevatorEnd1) {
             elevator.setPower(0.5);
-        } else if(elevatorPosition < elevatorMaxTurn) {
+        } else if(elevatorPosition < elevatorMaxPosition) {
             elevator.setPower(0.25);
         } else {
             stopElevator();
@@ -126,7 +128,7 @@ public class CommonMotions {
             elevator.setPower(-1);
         } else if(elevatorPosition > elevatorStart1) {
             elevator.setPower(-0.5);
-        } else if(elevatorPosition > elevatorMinTurn) {
+        } else if(elevatorPosition > elevatorMinPosition) {
             elevator.setPower(-0.25);
         } else {
             stopElevator();
@@ -174,6 +176,14 @@ public class CommonMotions {
     }
     public void relicLiftDown() {
         relicLift.setPosition(relicLiftDownPosition);
+    }
+
+    public void updateTelemetry(Telemetry telemetry) {
+        telemetry.addData("Elevator Position", elevator.getCurrentPosition());
+        telemetry.addData("Hand Position", hand.getCurrentPosition());
+        telemetry.addData("Relic Tool Power", relicTool.getPower());
+        telemetry.addData("Relic Grabber Position", relicGrabber.getPosition());
+        telemetry.addData("Relic Lift Position", relicLift.getPosition());
     }
 
 

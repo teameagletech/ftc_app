@@ -14,11 +14,6 @@ public class EchoOp extends OpMode {
 
     CommonMotions commonMotions;
 
-    private DcMotor driveLeftFront, driveLeftBack, driveRightFront, driveRightBack;
-    private DcMotor elevator, hand, relicTool;
-    private Servo relicGrabber, relicLift;
-    private Servo pusher;
-
 
     @Override
     public void init() {
@@ -99,11 +94,7 @@ public class EchoOp extends OpMode {
         telemetry.addData("Gamepad 2 Right Trigger", gamepad2.right_trigger);
 
 
-        telemetry.addData("Elevator Position", elevator.getCurrentPosition());
-        telemetry.addData("Hand Position", hand.getCurrentPosition());
-        telemetry.addData("Relic Tool Power", relicTool.getPower());
-        telemetry.addData("Relic Grabber Position", relicGrabber.getPosition());
-        telemetry.addData("Relic Lift Position", relicLift.getPosition());
+        commonMotions.updateTelemetry(telemetry);
 
 
 
