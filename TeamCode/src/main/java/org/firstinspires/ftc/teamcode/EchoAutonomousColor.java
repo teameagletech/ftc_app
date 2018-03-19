@@ -67,10 +67,53 @@ public class EchoAutonomousColor extends LinearOpMode {
         colorServo.setPower(-0.2);
         Thread.sleep(500);
         colorServo.setPower(0);
-
+        color.enableLed(true);
 
         int red = color.red(), blue = color.blue();
-        while (red < 100 && blue < 100) {
+        
+        while (blue<100 || red<100 ){
+            blue = color.blue();
+            red = color.red();
+
+            driveLeftFront.setPower(0.2);
+            driveLeftBack.setPower(-0.2);
+            driveRightFront.setPower(-0.2);
+            driveRightBack.setPower(0.2);
+        }
+        
+        driveLeftFront.setPower(0);
+        driveLeftBack.setPower(0);
+        driveRightFront.setPower(0);
+        driveRightBack.setPower(0);
+        Thread.sleep(1000);
+
+        
+        blue = color.blue();
+        red = color.red();
+        
+        if (blue > 100) {
+            driveLeftFront.setPower(0.3);
+            driveLeftBack.setPower(-0.3);
+            driveRightFront.setPower(0.0);
+            driveRightBack.setPower(0.0);
+            Thread.sleep(2000);
+        }
+        
+        else if (red > 100) {
+            driveLeftFront.setPower(0.0);
+            driveLeftBack.setPower(0.0);
+            driveRightFront.setPower(-0.3);
+            driveRightBack.setPower(0.3);
+            Thread.sleep(2000);
+        }
+        
+        stop();
+        
+        
+        
+        
+        
+        /* while (red < 100 && blue < 100) {
             red = color.red();
             blue = color.blue();
             driveLeftFront.setPower(0.3);
@@ -88,7 +131,7 @@ public class EchoAutonomousColor extends LinearOpMode {
         telemetry.addData("green", color.green());
         telemetry.addData("Blue", color.blue());
         telemetry.addData("argb", color.argb());
-        telemetry.addData("alpha", color.alpha());
+        telemetry.addData("alpha", color.alpha());  
 
 
         // forward for 2 seconds
@@ -119,7 +162,7 @@ public class EchoAutonomousColor extends LinearOpMode {
 //        driveRightBack.setPower(0);
 //        pusher.setPosition(1);
 
-        stop();
+        stop(); */
     }
 
     private void openHand() {
