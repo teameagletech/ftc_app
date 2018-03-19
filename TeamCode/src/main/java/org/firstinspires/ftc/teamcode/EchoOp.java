@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp(name = "EchoOp")
 public class EchoOp extends OpMode {
 
-    private DcMotor driveLeftFront, driveLeftBack, driveRightFront, driveRightBack;
+    private DcMotor driveLeftFront, driveLeftBack, driveRightFront, driveRightBack, relicGrabber;
     private DcMotor elevator, hand;
     private Servo pusher;
 
@@ -141,6 +141,7 @@ public class EchoOp extends OpMode {
             openHand();
         }
 
+        relicGrabber.setPower(gamepad2.right_trigger);
 
         if(gamepad2.y) {
             elevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
