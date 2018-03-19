@@ -71,7 +71,7 @@ public class EchoAutonomousColor extends LinearOpMode {
 
         int red = color.red(), blue = color.blue();
         
-        while (blue<100 || red<100 ){
+        while (blue<100 && red<100 ){
             blue = color.blue();
             red = color.red();
 
