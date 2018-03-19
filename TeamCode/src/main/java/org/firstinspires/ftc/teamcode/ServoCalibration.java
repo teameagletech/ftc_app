@@ -13,6 +13,7 @@ public class ServoCalibration extends OpMode {
 
 
     private Servo servo;
+    private double servoPosition = 0.0;
 
     @Override
     public void init() {
@@ -21,9 +22,18 @@ public class ServoCalibration extends OpMode {
 
     @Override
     public void loop() {
+        if(gamepad1.dpad_up && servoPosition < 1) {
+            servoPosition += 0.0003;
+        } else if(gamepad1.dpad_down && servoPosition > 0) {
+            servoPosition -= 0.0003;
+        }
 
-        servo.setPosition(Math.abs(gamepad1.left_stick_y));
-        telemetry.addData("Right Hand", servo.getPosition());
+        if(Math.abs(gamepad1.left_stick_y) != 0) {
+            servoPosition = Math.abs(gamepad1.left_stick_y);
+        }
+        servo.setPosition(servoPosition);
+        telemetry.addData("Servo Position - Variable", servoPosition);
+        telemetry.addData("Servo Position - Method", servo.getPosition());
 
     }
 }

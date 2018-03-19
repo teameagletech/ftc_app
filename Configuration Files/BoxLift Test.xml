@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<Robot type="FirstInspires-FTC">
+    <MotorController name="elevator" serialNumber="AL00VV41">
+        <NeveRest60Gearmotor name="elevator" port="1" />
+    </MotorController>
+    <MotorController name="hand" serialNumber="AL00VV44">
+        <NeveRest60Gearmotor name="hand" port="1" />
+    </MotorController>
+</Robot>
