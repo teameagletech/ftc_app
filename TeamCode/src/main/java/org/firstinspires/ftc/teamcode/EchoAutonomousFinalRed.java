@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * Created by tarunbod on 1/25/18.
  */
 
+@Autonomous(name = "EchoAutoFinalRed")
 public class EchoAutonomousFinalRed extends OpMode {
 
     private DcMotor driveLeftFront, driveLeftBack, driveRightFront, driveRightBack;

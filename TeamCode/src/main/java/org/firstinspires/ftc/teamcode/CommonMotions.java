@@ -186,7 +186,9 @@ public class CommonMotions {
         telemetry.addData("Relic Lift Position", relicLift.getPosition());
     }
 
-
+//    public void relicGrabberPower() {
+//        relicGrabber.setPower(gamepad2.right_trigger);
+//    }
 
 
 

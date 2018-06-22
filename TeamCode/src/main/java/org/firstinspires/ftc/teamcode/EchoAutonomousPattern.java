@@ -10,8 +10,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-import java.util.ArrayList;
-
 @Autonomous(name = "EagleTechAutonomous")
 public class EchoAutonomousPattern extends OpMode {
 
@@ -41,7 +39,6 @@ public class EchoAutonomousPattern extends OpMode {
         driveLeftBack = hardwareMap.dcMotor.get("dlb");
         driveRightFront = hardwareMap.dcMotor.get("drf");
         driveRightBack = hardwareMap.dcMotor.get("drb");
-
 
     }
 
