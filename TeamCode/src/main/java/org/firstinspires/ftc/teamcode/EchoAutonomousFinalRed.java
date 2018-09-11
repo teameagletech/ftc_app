@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
@@ -10,19 +12,65 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-@Autonomous(name = "EagleTechAutonomous")
-public class EchoAutonomousPattern extends OpMode {
+/**
+ * Created by tarunbod on 1/25/18.
+ */
+
+@Autonomous(name = "EchoAutoFinalRed")
+public class EchoAutonomousFinalRed extends OpMode {
+
+    private DcMotor driveLeftFront, driveLeftBack, driveRightFront, driveRightBack;
+    private DcMotor elevator, hand;
+    private Servo pusher;
 
     VuforiaLocalizer vuforia;
     VuforiaTrackables relicTrackables;
     VuforiaTrackable relicTemplate;
 
-    DcMotor driveLeftFront, driveRightFront, driveLeftBack, driveRightBack;
-
     RelicRecoveryVuMark patternDirection = RelicRecoveryVuMark.UNKNOWN;
+
+    private int pullMotorStart1 = 1000;
+
+    private int handMaxPosition = 163;
+    private int handMinPosition = 0;
+
+    private void openHand() {
+        hand.setTargetPosition(handMinPosition);
+        hand.setPower(0.5);
+    }
+
+    private void closeHand() {
+        hand.setTargetPosition(handMaxPosition);
+        hand.setPower(-0.5);
+    }
+
+    private void stopRobot() {
+        driveLeftFront.setPower(0);
+        driveLeftBack.setPower(0);
+        driveRightFront.setPower(0);
+        driveRightBack.setPower(0);
+    }
 
     @Override
     public void init() {
+        driveLeftFront = hardwareMap.dcMotor.get("dlf");
+        driveLeftBack = hardwareMap.dcMotor.get("dlb");
+        driveRightFront = hardwareMap.dcMotor.get("drf");
+        driveRightBack = hardwareMap.dcMotor.get("drb");
+
+        elevator = hardwareMap.dcMotor.get("elevator");
+        hand = hardwareMap.dcMotor.get("hand");
+
+        pusher = hardwareMap.servo.get("pusher");
+
+        driveLeftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        driveLeftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        driveRightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        driveRightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        hand.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        pusher.setPosition(1);
 
         // Vuforia setup code
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -35,21 +83,19 @@ public class EchoAutonomousPattern extends OpMode {
         relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate");
 
-        driveLeftFront = hardwareMap.dcMotor.get("dlf");
-        driveLeftBack = hardwareMap.dcMotor.get("dlb");
-        driveRightFront = hardwareMap.dcMotor.get("drf");
-        driveRightBack = hardwareMap.dcMotor.get("drb");
-
-    }
-
-    @Override
-    public void start() {
-        relicTrackables.activate();
-        resetStartTime();
+        closeHand();
+        elevator.setTargetPosition(pullMotorStart1);
+        elevator.setPower(1);
     }
 
     @Override
     public void loop() {
+        telemetry.addData("Message", "Don't lose too hard.");
+
+        // 1 - Color Sensor Code
+
+
+        // 2 - Pattern Detection
         if (getRuntime() < 3) {
             patternDirection = RelicRecoveryVuMark.from(relicTemplate);
         } else if (getRuntime() < 3.05) {
@@ -76,14 +122,6 @@ public class EchoAutonomousPattern extends OpMode {
             driveRightBack.setPower(0);
         }
 
-        telemetry.update();
 
     }
-
-    @Override
-    public void stop() {
-        super.stop();
-        relicTrackables.deactivate();
-    }
-
 }

@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * Created by ishanarya on 11/6/17.
@@ -69,6 +67,7 @@ public class EchoOp extends OpMode {
             commonMotions.resetElevator();
         }
 
+//        commonMotions.relicGrabberPower();
 
         commonMotions.relicToolExtend(gamepad2.left_trigger);
 
