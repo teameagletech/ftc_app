@@ -20,8 +20,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import java.util.Locale;
 
-@Autonomous(name = "EchoAutonomousBlueTurn")
-public class EchoAutonomousBlueTurn extends LinearOpMode {
+@Autonomous(name = "EchoAutonomousRedTurn")
+public class EchoAutonomousRedTurn extends LinearOpMode {
 
     CommonMotions commonMotions;
 
@@ -66,10 +66,10 @@ public class EchoAutonomousBlueTurn extends LinearOpMode {
 
 
         commonMotions.drive(.5, 0, 0);
-        Thread.sleep(1500);
+        Thread.sleep(1900);
         commonMotions.stopWheels();
         Thread.sleep(1000);
-        commonMotions.drive(0, 0, -0.5);
+        commonMotions.drive(0, 0, 0.5);
         Thread.sleep(1000);
         commonMotions.stopWheels();
         Thread.sleep(1000);

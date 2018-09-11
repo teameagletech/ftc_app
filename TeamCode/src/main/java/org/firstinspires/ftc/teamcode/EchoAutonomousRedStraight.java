@@ -41,6 +41,7 @@ public class EchoAutonomousRedStraight extends LinearOpMode {
 
 
         waitForStart(); //Final line
+        commonMotions.relicLiftDown();
     }
 
 

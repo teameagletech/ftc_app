@@ -25,7 +25,7 @@ public class CommonMotions {
     final public int elevatorStart1 = 1000;
     final public int elevatorMinPosition = 0;
 
-    final public double handPower = 0.6;
+    final public double handPower = 0.49;
     final public int handMaxPosition = 175;
     final public int handMinPosition = 0;
 
@@ -33,11 +33,12 @@ public class CommonMotions {
     final public double pusherOpenPosition = 0;
 
     private double relicToolPower = 0.5;
-    private double relicGrabberClosedPosition = 0.57;
+    private double relicGrabberClosedPosition = 0.56;
     private double relicGrabberOpenPosition = 1;
     private double relicGrabberInitPosition = 0.47;
+    private double relicLiftInitPosition = 0.116;
     private double relicLiftUpPosition = 1;
-    private double relicLiftDownPosition = 0.14;
+    private double relicLiftDownPosition = 0.169;
 
     private double speedModifier = 1;
 
@@ -70,7 +71,7 @@ public class CommonMotions {
         }
         hand.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        relicLiftDown();
+        setRelicLiftInitPosition();
         setRelicGrabberInitPosition();
         pusherClose();
     }
@@ -173,6 +174,9 @@ public class CommonMotions {
     }
     public void relicLiftUp() {
         relicLift.setPosition(relicLiftUpPosition);
+    }
+    public void setRelicLiftInitPosition() {
+        relicLift.setPosition(relicLiftInitPosition);
     }
     public void relicLiftDown() {
         relicLift.setPosition(relicLiftDownPosition);
